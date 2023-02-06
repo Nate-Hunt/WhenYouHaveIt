@@ -1,0 +1,5 @@
+Issue 1:
+    Not including the ambient noise reduction helps the api recognize lower voiced audio. This may, however, add additional white noise to the recording. I will need to test with 
+    different audio volumes.
+
+Resolution:
