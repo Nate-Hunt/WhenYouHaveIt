@@ -45,7 +45,7 @@ New Testamest
                     Matthew             40
                     Mark                41
                     Luke                42
-                    Jonah               43
+                    John               43
                     Acts                44
                     Romans              45
                     1 Corinthians       46
