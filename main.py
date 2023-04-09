@@ -208,3 +208,5 @@ else:
 #Result is only the text with the most confidence
 
 #Use the result as data to query the SQL database for the text to pop up
+
+#This is a test
