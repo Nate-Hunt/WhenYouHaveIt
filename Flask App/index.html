@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Record Audio</title>
+</head>
+<body>
+    <h1>Record Audio</h1>
+    <button id = "record button" onclick = "startRecording()">Record</button>
+    <br><br>
+    <form action = "{{ url_for('record') }}" method = "post"></form>
+        <input type = "hidden" id = "audio-data" name = "audio-data">
+        <input type = "submit" value = "Submit Recording">
+    </form>
+    <script> 
+        var recordButton = document.getElementById('record-buton');
+        var audioDataInput = document.getElementById('audio-data');
+        var chunks = [];
+
+        function startRecording()
+        {
+            navigator.mediaDevices.getUserMedia({audio: true})
+            .then(function(stream) 
+            {
+                var mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                mediaRecorder.addEventListener('dataavailable', function(event) 
+                {
+                    chunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener('stop', function(event)
+                {
+                    var blob = new Blob(chunks, {'type' : 'audio/wav; codecs = opus'});
+                    chunks = [];
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function()
+                    {
+                        audioDataInput.value = reader.result;
+                    }
+
+                    setTimeout(function()
+                    {
+                        mediaRecorder.false;
+                        recordButton.disabled = true;
+
+                    }, 5000)
+                })
+            }
+        )};
+
+    </script>
+</body>
+</html>

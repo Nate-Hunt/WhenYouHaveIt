@@ -1,9 +1,18 @@
+"""Generates a wav file from """
 import mysql.connector
 mydb = mysql.connector.connect()
-
+import speech_recognition as sr
 import cred
 
-import speech_recognition as sr
+mydb = mysql.connector.connect(
+    host = cred.HOST,
+    user = cred.USER,
+    passwd = cred.PASSWD,
+    database = cred.DATABASE,
+    port = cred.PORT
+)
+
+
 r = sr.Recognizer()
 file = sr.AudioFile('Audio Files/VoiceRecording2.wav')
 
@@ -12,13 +21,7 @@ with file as source:
     audio = r.record(source)
     result = r.recognize_google(audio, language = 'en')
 
-mydb = mysql.connector.connect(
-    host = cred.host,
-    user = cred.user,
-    passwd = cred.passwd, 
-    database = cred.database,
-    port = cred.port
-)
+
 
 mycursor = mydb.cursor()
 
