@@ -1,5 +1,0 @@
-1. Prompt the user to say the text they are looking for
-
-2. Store the user's audio temporarily and input into Google-Speech-to-text
-
-3. Use Book, Chapters, and Verses to check if 

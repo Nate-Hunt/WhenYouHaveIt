@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playback</title>
+</head>
+<body>
+    <h1>Playback</h1>
+    <audio controls>
+        <source src="{{ url_for('static', filename=audio_file) }}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <div class="button-container">
+        <button id="record-button" class="record-button" onclick="record()">Record</button>
+        <button id="playback-button" class="playback-button" disabled>Playback</button>
+    </div>
+
+</body>
+</html>
+
