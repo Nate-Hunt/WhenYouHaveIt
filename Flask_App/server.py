@@ -19,15 +19,21 @@ def record_and_store():
     
     #transcribe into usable request for extraction
     r = sr.Recognizer()
-    file = sr.AudioFile('file_name')
+    file = sr.AudioFile(file_name)
     
     with file as source:
         #r.adjust_for_ambient_noise(source)
         audio = r.record(source)
-        result = r.recognize_google(audio, language = 'en')
+        
+    result = r.recognize_google(audio, language = 'en')
     os.remove(file_name)
-    
-    return jsonify(result)    
+    try:
+        text = r.recognize_google(audio, language = 'en')
+        return text
+    except sr.UnknownValueError:
+        return "Unable to recognize speech"
+    except sr.RequestError as e:
+        return f"Error: {str(e)}"  
     
     #extract data and send sql query
     

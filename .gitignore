@@ -7,3 +7,11 @@
 /test.py
 /test.sql
 /testaudio.py
+virtual_env/
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
