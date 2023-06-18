@@ -34,4 +34,4 @@ def record_and_store():
     #return data
     
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(host='127.0.0.1', port=5409,debug=False)
