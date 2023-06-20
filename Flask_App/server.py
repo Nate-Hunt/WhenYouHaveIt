@@ -1,5 +1,6 @@
 import os
 import random
+import extraction
 import speech_recognition as sr
 from flask import Flask, request, render_template
 
@@ -38,7 +39,7 @@ def record_and_store():
     os.remove(file_name)
     try:
         text = r.recognize_google(audio, language = 'en')
-        return text
+        return extraction.extract(text)
     except sr.UnknownValueError:
         return "Unable to recognize speech"
     except sr.RequestError as e:

@@ -4,6 +4,7 @@
 /bible.sql
 /cred.py
 /cred2.py
+creds/
 /get-pip.py
 /test.py
 /test.sql

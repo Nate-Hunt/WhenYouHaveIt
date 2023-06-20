@@ -1,20 +1,23 @@
 """Generates a wav file from """
+import sys
 import mysql.connector
 mydb = mysql.connector.connect()
 import speech_recognition as sr
-import cred
+import creds.cred2 as cred2
+
+sys.path.insert(0, "/creds")
 
 mydb = mysql.connector.connect(
-    host = cred.HOST,
-    user = cred.USER,
-    passwd = cred.PASSWD,
-    database = cred.DATABASE,
-    port = cred.PORT
+    host = cred2.HOST,
+    user = cred2.USER,
+    passwd = cred2.PASSWD,
+    database = cred2.DATABASE,
+    port = cred2.PORT
 )
 
 
 r = sr.Recognizer()
-file = sr.AudioFile('Audio Files/VoiceRecording2.wav')
+file = sr.AudioFile('AudioFiles/Exodus 16_4.wav')
 
 with file as source:
     #r.adjust_for_ambient_noise(source)
@@ -182,31 +185,33 @@ Chapters = {
 #print(result[result.find(' ') + 1: result.find(':')])
 #print(result[result.find(':') + 1])
 
-input_book = result[0: result.find(' ')]
-input_chapter = result[result.find(' ') + 1: result.find(':')]
-input_verse = result[result.find(':') + 1]
+def extract(result):
+    input_book = result[0: result.find(' ')]
+    input_chapter = result[result.find(' ') + 1: result.find(':')]
+    input_verse = result[result.find(':') + 1]
 
-if input_book in Books:
-    # print(input_book + " is a valid book.")
-    q_book = Books[input_book]
+    if input_book in Books:
+        # print(input_book + " is a valid book.")
+        q_book = Books[input_book]
 
-    if int(input_chapter) <= Chapters[input_book] and int(input_chapter) > 0:
-    # print(input_chapter + " is a valid chapter for " + input_book + "!")
+        if int(input_chapter) <= Chapters[input_book] and int(input_chapter) > 0:
+        # print(input_chapter + " is a valid chapter for " + input_book + "!")
 
-    #Commit SQL query with given information
-        default_query_info = (Books[input_book], input_chapter, input_verse)
-        default_query = "SELECT verse FROM bible WHERE Book = %s AND Chapter = %s AND Versecount = %s"
-        mycursor.execute(default_query, default_query_info)
+        #Commit SQL query with given information
+            default_query_info = (Books[input_book], input_chapter, input_verse)
+            default_query = "SELECT verse FROM bible WHERE Book = %s AND Chapter = %s AND Versecount = %s"
+            mycursor.execute(default_query, default_query_info)
 
-        for n in mycursor:
-            print(*n)
+            for n in mycursor:
+                print(*n)
+
+        else:
+            print("\n " + input_chapter + " is not a valid chapter for " + input_book + "!")
 
     else:
-        print("\n " + input_chapter + " is not a valid chapter for " + input_book + "!")
+        print("\nYou have not input a valid book.\n")
 
-else:
-    print("\nYou have not input a valid book.\n")
-
+extract(result)
 
 #Result is only the text with the most confidence
 
