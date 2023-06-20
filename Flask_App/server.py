@@ -1,7 +1,7 @@
 import os
 import random
 import speech_recognition as sr
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
@@ -9,7 +9,16 @@ app = Flask(__name__)
    and storing for the database application.
 """
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
 @app.route("/record_and_store", methods=["POST"])
+
+def transcribe():
+    result = record_and_store()
+    return result
 
 def record_and_store():
     #record, create audio file, and save it

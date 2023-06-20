@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Playback</title>
+  <title>Transcription Page</title>
 </head>
 <body>
-    <h1>Playback</h1>
-    <audio controls>
-        <source src="{{ url_for('static', filename=audio_file) }}" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
-    
-    <div class="button-container">
-        <button id="record-button" class="record-button" onclick="record()">Record</button>
-        <button id="playback-button" class="playback-button" disabled>Playback</button>
-    </div>
+  <h1>Transcription Page</h1>
+  <button id="transcribeButton">Transcribe</button>
+  <div id="result"></div>
 
+  <script>
+    // Add an event listener to the button
+    document.getElementById("transcribeButton").addEventListener("click", function() {
+      // Make an HTTP request to your Flask server
+      fetch("/transcribe")
+        .then(function(response) {
+          // Handle the response
+          if (response.ok) {
+            return response.text();
+          } else {
+            throw new Error("Error: " + response.status);
+          }
+        })
+        .then(function(text) {
+          // Display the returned value
+          document.getElementById("result").textContent = text;
+        })
+        .catch(function(error) {
+          // Handle any errors
+          console.error(error);
+        });
+    });
+  </script>
 </body>
 </html>
-
