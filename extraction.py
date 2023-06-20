@@ -5,11 +5,11 @@ import speech_recognition as sr
 import cred2
 
 mydb = mysql.connector.connect(
-    host = cred.HOST,
-    user = cred.USER,
-    passwd = cred.PASSWD,
-    database = cred.DATABASE,
-    port = cred.PORT
+    host = cred2.HOST,
+    user = cred2.USER,
+    passwd = cred2.PASSWD,
+    database = cred2.DATABASE,
+    port = cred2.PORT
 )
 
 
