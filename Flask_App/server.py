@@ -5,8 +5,9 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-"""This application handles the microphone audio recording 
-   and storing for the database application.
+"""
+    This application handles the microphone audio recording 
+    and storing for the database application.
 """
 
 @app.route("/")

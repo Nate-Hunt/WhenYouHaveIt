@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speech Recognition</title>
+</head>
+<body>
+  <h1>Speech Recognition Example</h1>
+  <button id="startButton">Start</button>
+  <p id="status"></p>
+  <audio id="audio" controls></audio>
+
+  <script>
+    const startButton = document.getElementById("startButton");
+    const status = document.getElementById("status");
+    const audio = document.getElementById("audio");
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+    recognition.lang = 'en-US';
+
+    let chunks = [];
+
+    startButton.addEventListener('click', () => {
+      chunks = [];
+      recognition.start();
+      status.textContent = "Listening...";
+    });
+
+    recognition.onresult = (event) => {
+      const result = event.results[0][0].transcript;
+      status.textContent = "Finished";
+      audio.controls = true;
+
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+      const audioUrl = URL.createObjectURL(blob);
+      audio.src = audioUrl;
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = audioUrl;
+      downloadLink.download = 'speech_input.webm';
+      downloadLink.textContent = 'Download';
+
+      document.body.appendChild(downloadLink);
+    };
+
+    recognition.onaudiostart = () => {
+      status.textContent = "Recording...";
+    };
+
+    recognition.onaudioend = () => {
+      status.textContent = "Processing...";
+      recognition.stop();
+    };
+
+    recognition.onnomatch = () => {
+      status.textContent = "No speech recognized";
+    };
+
+    recognition.onerror = (event) => {
+      console.error(event.error);
+      status.textContent = "Error: " + event.error;
+    };
+
+    recognition.onstart = () => {
+      status.textContent = "Listening...";
+    };
+
+    recognition.onend = () => {
+      status.textContent = "Idle";
+    };
+
+    recognition.onresult = (event) => {
+      const result = event.results[0][0].transcript;
+      transcript.textContent = result;
+      audio.controls = true;
+    };
+
+    recognition.onresult = (event) => {
+      chunks.push(event.results[0][0].blob);
+    };
+  </script>
+</body>
+</html>
