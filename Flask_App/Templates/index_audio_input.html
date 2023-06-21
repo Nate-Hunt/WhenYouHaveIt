@@ -25,23 +25,6 @@
       status.textContent = "Listening...";
     });
 
-    recognition.onresult = (event) => {
-      const result = event.results[0][0].transcript;
-      status.textContent = "Finished";
-      audio.controls = true;
-
-      const blob = new Blob(chunks, { type: 'audio/webm' });
-      const audioUrl = URL.createObjectURL(blob);
-      audio.src = audioUrl;
-
-      const downloadLink = document.createElement('a');
-      downloadLink.href = audioUrl;
-      downloadLink.download = 'speech_input.webm';
-      downloadLink.textContent = 'Download';
-
-      document.body.appendChild(downloadLink);
-    };
-
     recognition.onaudiostart = () => {
       status.textContent = "Recording...";
     };
@@ -60,22 +43,18 @@
       status.textContent = "Error: " + event.error;
     };
 
-    recognition.onstart = () => {
-      status.textContent = "Listening...";
-    };
-
-    recognition.onend = () => {
-      status.textContent = "Idle";
-    };
-
     recognition.onresult = (event) => {
       const result = event.results[0][0].transcript;
-      transcript.textContent = result;
+      status.textContent = "Finished: " + result;
       audio.controls = true;
+
+      const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      audio.src = audioUrl;
     };
 
-    recognition.onresult = (event) => {
-      chunks.push(event.results[0][0].blob);
+    recognition.ondataavailable = (event) => {
+      chunks.push(event.data);
     };
   </script>
 </body>
