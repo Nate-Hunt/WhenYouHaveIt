@@ -174,17 +174,6 @@ Chapters = {
     "Revelation": 22
 }
 
-#import mysql.connector
-
-#db = mysql.connector.connect()
-
-
-#print(result)
-
-#print(result[0: result.find(' ')])
-#print(result[result.find(' ') + 1: result.find(':')])
-#print(result[result.find(':') + 1])
-
 def extract(result):
     input_book = result[0: result.find(' ')]
     input_chapter = result[result.find(' ') + 1: result.find(':')]
