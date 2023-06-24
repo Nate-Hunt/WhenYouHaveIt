@@ -9,6 +9,13 @@
   <p id="status"></p>
   <audio id="audio" controls></audio>
 
+
+  <form id="transcriptForm" action="/process" method="post">
+    <label for="transcript">Transcript:</label><br>
+    <textarea id="transcript" name="transcript" rows="4" cols="50"></textarea><br>
+  </form>
+
+
   <script>
     const startButton = document.getElementById("startButton");
     const status = document.getElementById("status");
@@ -51,11 +58,39 @@
       const audioBlob = new Blob(chunks, { type: 'audio/webm' });
       const audioUrl = URL.createObjectURL(audioBlob);
       audio.src = audioUrl;
+
+      const transcriptElement = document.getElementById("transcript");
+      transcriptElement.textContent = result;
+
+      // Automatically submit the form
+      const form = document.getElementById("transcriptForm");
+      form.submit();
+
+      // recognition.stop();
+      // sendTranscript(result);
     };
 
     recognition.ondataavailable = (event) => {
       chunks.push(event.data);
     };
+
+    function sendTranscript(transcript) {
+      fetch('/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ transcript: transcript })
+      })
+        .then(response => response.text())
+        .then(data => {
+          console.log('Server response:', data);
+          // Do something with the server response
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   </script>
 </body>
 </html>

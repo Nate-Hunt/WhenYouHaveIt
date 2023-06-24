@@ -1,180 +1,168 @@
 """Generates a wav file from """
-import sys
 import mysql.connector
 mydb = mysql.connector.connect()
 import speech_recognition as sr
-import creds.cred2 as cred2
 
-sys.path.insert(0, "/creds")
+def extract(inFile, result):
+    mydb = mysql.connector.connect(
+        host = inFile.HOST,
+        user = inFile.USER,
+        passwd = inFile.PASSWD,
+        database = inFile.DATABASE,
+        port = inFile.PORT
+    )
+    
+    resultString = ""
 
-mydb = mysql.connector.connect(
-    host = cred2.HOST,
-    user = cred2.USER,
-    passwd = cred2.PASSWD,
-    database = cred2.DATABASE,
-    port = cred2.PORT
-)
+    mycursor = mydb.cursor()
+
+    Books = {
+
+        #Old Testament
+        "Genesis": 0,
+        "Exodus": 1,
+        "Leviticus": 2,
+        "Numbers": 3,
+        "Deuteronomy": 4,
+        "Joshua": 5,
+        "Judges": 6,
+        "Ruth": 7,
+        "1 Samuel": 8,
+        "2 Samuel": 9,
+        "1 Kings": 10,
+        "2 Kings": 11,
+        "1 Chronicles": 12,
+        "2 Chronicles": 13,
+        "Ezra": 14,
+        "Nehemiah": 15,
+        "Esther": 16,
+        "Job": 17,
+        "Pslams": 18,
+        "Proverbs": 19,
+        "Ecclesiastes": 20,
+        "Song of Solomon": 21,
+        "Isaiah": 22,
+        "Jeremiah": 23,
+        "Lamentations": 24,
+        "Ezekiel": 25,
+        "Daniel": 26,
+        "Hosea": 27,
+        "Joel": 28,
+        "Amos": 29,
+        "Obadiah": 30,
+        "Jonah": 31,
+        "Micah": 32,
+        "Nahum": 33,
+        "Habakkuk": 34,
+        "Zephaniah": 35,
+        "Haggai": 36,
+        "Zechariah": 37,
+        "Malachi": 38,
+
+        #New Testament
+        "Matthew": 39,
+        "Mark": 40,
+        "Luke": 41,
+        "John": 42,
+        "Acts": 43,
+        "Romans": 44,
+        "1 Corinthians": 45,
+        "2 Corinthians": 46,
+        "Galatians": 47,
+        "Ephesians": 48,
+        "Philippians": 49,
+        "Colossians": 50,
+        "1 Thessalonians": 51,
+        "2 Thessalonians": 52,
+        "1 Timothy": 53,
+        "2 Timothy": 54,
+        "Titus": 55,
+        "Philemon": 56,
+        "Hebrews": 57,
+        "James": 58,
+        "1 Peter": 59,
+        "2 Peter": 60,
+        "1 John": 61,
+        "2 John": 62,
+        "3 John": 63,
+        "Jude": 64,
+        "Revelation": 65
+    }
+
+    Chapters = {
+
+        #Old Testament
+        "Genesis": 50,
+        "Exodus": 40,
+        "Leviticus": 27,
+        "Numbers": 36,
+        "Deuteronomy": 34,
+        "Joshua": 24,
+        "Judges": 21,
+        "Ruth": 4,
+        "1 Samuel": 31,
+        "2 Samuel": 24,
+        "1 Kings": 22,
+        "2 Kings": 25,
+        "1 Chronicles": 29,
+        "2 Chronicles": 36,
+        "Ezra": 10,
+        "Nehemiah": 13,
+        "Esther": 10,
+        "Job": 42,
+        "Pslams": 150,
+        "Proverbs": 31,
+        "Ecclesiastes": 12,
+        "Song of Solomon": 8,
+        "Isaiah": 66,
+        "Jeremiah": 52,
+        "Lamentations": 5,
+        "Ezekiel": 48,
+        "Daniel": 12,
+        "Hosea": 14,
+        "Joel": 3,
+        "Amos": 9,
+        "Obadiah": 1,
+        "Jonah": 4,
+        "Micah": 7,
+        "Nahum": 3,
+        "Habakkuk": 3,
+        "Zephaniah": 3,
+        "Haggai": 2,
+        "Zechariah": 14,
+        "Malachi": 4,
+
+        #New Testament
+        "Matthew": 28,
+        "Mark": 16,
+        "Luke": 24,
+        "John": 21,
+        "Acts": 28,
+        "Romans": 16,
+        "1 Corinthians": 16,
+        "2 Corinthians": 13,
+        "Galatians": 6,
+        "Ephesians": 6,
+        "Philippians": 4,
+        "Colossians": 4,
+        "1 Thessalonians": 5,
+        "2 Thessalonians": 3,
+        "1 Timothy": 6,
+        "2 Timothy": 4,
+        "Titus": 3,
+        "Philemon": 1,
+        "Hebrews": 13,
+        "James": 5,
+        "1 Peter": 5,
+        "2 Peter": 3,
+        "1 John": 5,
+        "2 John": 1,
+        "3 John": 1,
+        "Jude": 1,
+        "Revelation": 22
+    }
 
 
-r = sr.Recognizer()
-file = sr.AudioFile('AudioFiles/Exodus 16_4.wav')
-
-with file as source:
-    #r.adjust_for_ambient_noise(source)
-    audio = r.record(source)
-    result = r.recognize_google(audio, language = 'en')
-
-
-
-mycursor = mydb.cursor()
-
-Books = {
-
-    #Old Testament
-    "Genesis": 0,
-    "Exodus": 1,
-    "Leviticus": 2,
-    "Numbers": 3,
-    "Deuteronomy": 4,
-    "Joshua": 5,
-    "Judges": 6,
-    "Ruth": 7,
-    "1 Samuel": 8,
-    "2 Samuel": 9,
-    "1 Kings": 10,
-    "2 Kings": 11,
-    "1 Chronicles": 12,
-    "2 Chronicles": 13,
-    "Ezra": 14,
-    "Nehemiah": 15,
-    "Esther": 16,
-    "Job": 17,
-    "Pslams": 18,
-    "Proverbs": 19,
-    "Ecclesiastes": 20,
-    "Song of Solomon": 21,
-    "Isaiah": 22,
-    "Jeremiah": 23,
-    "Lamentations": 24,
-    "Ezekiel": 25,
-    "Daniel": 26,
-    "Hosea": 27,
-    "Joel": 28,
-    "Amos": 29,
-    "Obadiah": 30,
-    "Jonah": 31,
-    "Micah": 32,
-    "Nahum": 33,
-    "Habakkuk": 34,
-    "Zephaniah": 35,
-    "Haggai": 36,
-    "Zechariah": 37,
-    "Malachi": 38,
-
-    #New Testament
-    "Matthew": 39,
-    "Mark": 40,
-    "Luke": 41,
-    "John": 42,
-    "Acts": 43,
-    "Romans": 44,
-    "1 Corinthians": 45,
-    "2 Corinthians": 46,
-    "Galatians": 47,
-    "Ephesians": 48,
-    "Philippians": 49,
-    "Colossians": 50,
-    "1 Thessalonians": 51,
-    "2 Thessalonians": 52,
-    "1 Timothy": 53,
-    "2 Timothy": 54,
-    "Titus": 55,
-    "Philemon": 56,
-    "Hebrews": 57,
-    "James": 58,
-    "1 Peter": 59,
-    "2 Peter": 60,
-    "1 John": 61,
-    "2 John": 62,
-    "3 John": 63,
-    "Jude": 64,
-    "Revelation": 65
-}
-
-Chapters = {
-
-    #Old Testament
-    "Genesis": 50,
-    "Exodus": 40,
-    "Leviticus": 27,
-    "Numbers": 36,
-    "Deuteronomy": 34,
-    "Joshua": 24,
-    "Judges": 21,
-    "Ruth": 4,
-    "1 Samuel": 31,
-    "2 Samuel": 24,
-    "1 Kings": 22,
-    "2 Kings": 25,
-    "1 Chronicles": 29,
-    "2 Chronicles": 36,
-    "Ezra": 10,
-    "Nehemiah": 13,
-    "Esther": 10,
-    "Job": 42,
-    "Pslams": 150,
-    "Proverbs": 31,
-    "Ecclesiastes": 12,
-    "Song of Solomon": 8,
-    "Isaiah": 66,
-    "Jeremiah": 52,
-    "Lamentations": 5,
-    "Ezekiel": 48,
-    "Daniel": 12,
-    "Hosea": 14,
-    "Joel": 3,
-    "Amos": 9,
-    "Obadiah": 1,
-    "Jonah": 4,
-    "Micah": 7,
-    "Nahum": 3,
-    "Habakkuk": 3,
-    "Zephaniah": 3,
-    "Haggai": 2,
-    "Zechariah": 14,
-    "Malachi": 4,
-
-    #New Testament
-    "Matthew": 28,
-    "Mark": 16,
-    "Luke": 24,
-    "John": 21,
-    "Acts": 28,
-    "Romans": 16,
-    "1 Corinthians": 16,
-    "2 Corinthians": 13,
-    "Galatians": 6,
-    "Ephesians": 6,
-    "Philippians": 4,
-    "Colossians": 4,
-    "1 Thessalonians": 5,
-    "2 Thessalonians": 3,
-    "1 Timothy": 6,
-    "2 Timothy": 4,
-    "Titus": 3,
-    "Philemon": 1,
-    "Hebrews": 13,
-    "James": 5,
-    "1 Peter": 5,
-    "2 Peter": 3,
-    "1 John": 5,
-    "2 John": 1,
-    "3 John": 1,
-    "Jude": 1,
-    "Revelation": 22
-}
-
-def extract(result):
     input_book = result[0: result.find(' ')]
     input_chapter = result[result.find(' ') + 1: result.find(':')]
     input_verse = result[result.find(':') + 1]
@@ -192,15 +180,19 @@ def extract(result):
             mycursor.execute(default_query, default_query_info)
 
             for n in mycursor:
-                print(*n)
+                # print(*n)
+                resultString += n
 
         else:
-            print("\n " + input_chapter + " is not a valid chapter for " + input_book + "!")
+            resultString = ("\n " + input_chapter + " is not a valid chapter for " + input_book + "!")
 
     else:
-        print("\nYou have not input a valid book.\n")
+        resultString = ("\nYou have not input a valid book.\n")
+    
+    print("Excuted")
+    return resultString
 
-extract(result)
+    # extract(result)
 
 #Result is only the text with the most confidence
 
