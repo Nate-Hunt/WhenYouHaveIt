@@ -1,4 +1,5 @@
 import sys
+import time
 import extraction
 from creds import cred2
 from flask import Flask, render_template, request
@@ -14,6 +15,7 @@ def index():
 def process_transcript():
     if request.method == 'POST':
         transcript = request.form.get('transcript')
+        time.sleep(5)
         if transcript:
             processed_result = process_transcript_function(cred2, transcript)
             return render_template('result.html', result=processed_result)
