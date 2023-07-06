@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Speech Recognition</title>
+  <title>Speech to Text</title>
 </head>
 <body>
-  <h1>Speech Recognition Example</h1>
+  <h1>Bible Speech to Text</h1>
   <button id="startButton">Start</button>
   <p id="status"></p>
-  <audio id="audio" controls></audio>
+  <audio id="audio"></audio>
 
 
   <form id="transcriptForm" action="/process" method="post">
@@ -53,7 +53,7 @@
     recognition.onresult = (event) => {
       const result = event.results[0][0].transcript;
       status.textContent = "Finished: " + result;
-      audio.controls = true;
+      audio.controls = false;
 
       const audioBlob = new Blob(chunks, { type: 'audio/webm' });
       const audioUrl = URL.createObjectURL(audioBlob);
