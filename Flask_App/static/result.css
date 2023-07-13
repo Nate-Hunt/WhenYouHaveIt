@@ -1,0 +1,41 @@
+body {
+    text-align: center;
+    background-color: #F0EAD6;
+}
+
+#mainLogo {
+    width: 12vw;
+    height: 12vh;
+    text-align: center;
+}
+
+h1 {
+    color: #89023E;
+    font-size: 6vw;
+    text-align: center;
+    font-family: 'Vesper Libre', serif;
+}
+
+p {
+    color: #89023E;
+    text-align: center;
+    font-family: 'Vesper Libre', serif;
+    font-size: 4vw;
+    font-weight: bold;
+}
+
+#homeButton {
+    background-color: #89023E;
+    border-radius: 15px;
+    padding-bottom: 5vh;
+    text-align: center;
+    font-size: 2.5vw;
+    color: #F0EAD6;
+    border: none;
+    width: 15vw;
+    height: 5vh;
+}
+
+button:hover {
+    cursor: pointer;
+}

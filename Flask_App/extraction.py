@@ -12,6 +12,7 @@ def extract(inFile, result):
         port = inFile.PORT
     )
     
+    result = result.title()
     resultString = ""
 
     mycursor = mydb.cursor()
@@ -46,8 +47,8 @@ def extract(inFile, result):
         "Pslams": 18,
         "Proverbs": 19,
         "Ecclesiastes": 20,
-        "Song of Solomon": 21,
-        "Song of Songs": 21,
+        "Song Of Solomon": 21,
+        "Song Of Songs": 21,
         "Isaiah": 22,
         "Jeremiah": 23,
         "Lamentations": 24,
@@ -137,8 +138,8 @@ def extract(inFile, result):
         "Pslams": 150,
         "Proverbs": 31,
         "Ecclesiastes": 12,
-        "Song of Solomon": 8,
-        "Song of Songs": 8,
+        "Song Of Solomon": 8,
+        "Song Of Songs": 8,
         "Isaiah": 66,
         "Jeremiah": 52,
         "Lamentations": 5,
@@ -224,7 +225,7 @@ def extract(inFile, result):
             for n in mycursor:
                 # print(*n)
                 column1 = n[0]
-                resultString += f"Your verse: {column1}\n"
+                resultString += f"{column1}\n"
 
         else:
             resultString = ("\n " + input_chapter + " is not a valid chapter for " + input_book + "!")

@@ -2,19 +2,38 @@
 <html>
 <head>
   <title>Speech to Text</title>
+  <link rel="icon" type="image/svg" href="static\bible-svgrepo-com.svg">
+  <link rel="stylesheet" href="static/index_audio_input.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vesper+Libre&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Bible Speech to Text</h1>
-  <button id="startButton">Start</button>
-  <p id="status"></p>
-  <audio id="audio"></audio>
+  
+  <div align="center">
+    <img id="mainLogo" src="static/bible_logo.svg">
+    <h1>
+      Bible Speech to Text
+    </h1>
+    <button id="startButton">Record</button>
+    <p id="status"></p>
+    <audio id="audio"></audio>
+  
+    <form id="transcriptForm" action="/process" method="post">
+      <textarea id="transcript" name="transcript"></textarea><br>
+    </form>
+  </div>
 
+  <div id="instructions">
+    <p style="font-size: 3vw;">How to use</p>
+    <ul>
+      <li>Press "Record"</li><br>
+      <li>Click "Allow" on the pop-up in your browser</li><br>
+      <li>Say your desired verse clearly into your microphone</li><br>
+      <li>BOOM! You have your text!</li>
+    </ul>
 
-  <form id="transcriptForm" action="/process" method="post">
-    <label for="transcript">Transcript:</label><br>
-    <textarea id="transcript" name="transcript" rows="4" cols="50"></textarea><br>
-  </form>
-
+  </div>
 
   <script>
     const startButton = document.getElementById("startButton");
